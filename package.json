@@ -1,0 +1,23 @@
+{
+  "name": "playwright-frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielasimoesfernandes/playwright-frontend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danielasimoesfernandes/playwright-frontend/issues"
+  },
+  "homepage": "https://github.com/danielasimoesfernandes/playwright-frontend#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^24.10.1",
+    "allure-playwright": "^3.4.2"
+  }
+}
