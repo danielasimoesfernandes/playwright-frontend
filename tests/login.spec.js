@@ -13,3 +13,15 @@ test('CT-FE-003: Login com Sucesso', async ({ page }) => {
 
 
 });
+
+test('CT-FE-004: Login com Credenciais Inválidas', async ({ page }) => {
+
+  const loginPage = new LoginPage(page);
+
+  await loginPage.goToWebsite();
+  await loginPage.preencherDadosLoginErrados();
+  await loginPage.clicarEntrar();
+
+
+});
+
