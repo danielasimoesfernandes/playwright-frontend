@@ -1,0 +1,24 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - heading "📚 Criar Conta" [level=1] [ref=e3]
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: "Nome:"
+      - textbox "Nome:" [ref=e7]: Dani
+    - generic [ref=e8]:
+      - generic [ref=e9]: "Email:"
+      - textbox "Email:" [ref=e10]: dani@gmail.com
+    - generic [ref=e11]:
+      - generic [ref=e12]: "Senha:"
+      - textbox "Senha:" [ref=e13]: Test1234
+    - generic [ref=e14]:
+      - generic [ref=e15]: "Confirmar Senha:"
+      - textbox "Confirmar Senha:" [ref=e16]: Test1234
+    - button "Registrar" [active] [ref=e17] [cursor=pointer]
+  - generic [ref=e18]:
+    - text: Já tem uma conta?
+    - link "Faça login" [ref=e19] [cursor=pointer]:
+      - /url: login.html
+```
