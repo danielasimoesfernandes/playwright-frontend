@@ -19,23 +19,23 @@ export class DashboardPage {
         this.totalBooksCard = page.locator('.card:has-text("Total"), .card:has-text("Livros")');
         this.totalPagesCard = page.locator('.card:has-text("Total"), .card:has-text("Páginas")');
         this.totalUsersCard = page.locator('.card:has-text("Usuários")');
-        
+
         // Recent books section
         this.recentBooksSection = page.locator('.recent-books, [class*="recent"]');
         this.recentBooksGrid = page.locator('#livros-recentes, .books-grid').first();
         this.bookCards = page.locator('#livros-recentes .book-card, .books-grid .book-card');
 
         // Book card elements (for individual books)
-        this.bookImage = page.locator('#livros-recentes img, .books-grid img');
-        this.bookTitle = page.locator('#livros-recentes h3, .books-grid h3');
-        this.bookAuthor = page.locator('#livros-recentes p, .books-grid p');
+        this.bookImage = page.locator('.books-grid img');
+        this.bookTitle = page.locator('.books-grid h3');
+        this.bookAuthor = page.locator('.books-grid .book-card p', { hasText: 'Autor' });;
     };
 
     async goToDashboard() {
         await this.page.goto(this.url);
     };
 
-     async logout() {
+    async logout() {
         await this.logoutButton.click();
     }
 
@@ -48,10 +48,10 @@ export class DashboardPage {
         return await this.userNameDisplay.textContent();
     }
 
-     async isUserNameVisible() {
+    async isUserNameVisible() {
         return await this.userNameDisplay.isVisible();
     }
-    
+
     async verifyUserInLocalStorage(expectedName, expectedEmail) {
         const savedUser = await this.page.evaluate(() => JSON.parse(localStorage.getItem('usuario')));
         expect(savedUser).not.toBeNull();
@@ -92,12 +92,13 @@ export class DashboardPage {
         const countBooks = await this.bookCards.count();
         expect(countBooks).toBeLessThanOrEqual(maxBooks);
 
-        for (let i = 0; i < count; i++) {
+        for (let i = 0; i < countBooks; i++) {
             const card = this.bookCards.nth(i);
             await expect(card.locator('img')).toBeVisible();
             await expect(card.locator('h3')).toBeVisible();
-            await expect(card.locator('p')).toBeVisible();
+            await expect(card.locator('p', { hasText: 'Autor' })).toBeVisible();
         }
+        console.log(countBooks);
     }
 
 
