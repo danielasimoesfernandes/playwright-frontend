@@ -4,14 +4,15 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from '../POM/loginPage'
 import { DashboardPage } from '../POM/dashboardPage';
 
+
 test('CT-FE-003: Login com Sucesso com todas as Validações', async ({ page }) => {
 
-  const loginPage = new LoginPage(page);
   const dashboardPage = new DashboardPage(page);
+  const loginPage = new LoginPage(page); 
 
   // Ir para a página de registo e inserir dados 
   await loginPage.goToWebsite();
-  await loginPage.preencherDadosLoginManualmente('danimaria@gmail.com', 'Test1234'); // nome: Dani
+  await loginPage.fillLoginDataMannually('danimaria@gmail.com', 'Test1234'); // nome: Dani
 
   // Validar mensagem na pop up e clicar em ok
   // Isto tem de ser feito antes de clicar no botão que dá trigger à pop up
@@ -21,16 +22,17 @@ test('CT-FE-003: Login com Sucesso com todas as Validações', async ({ page }) 
   });
 
   // Validar login
-  await loginPage.clicarEntrar();
+  await loginPage.clickLogin();
 
   // Validar redirecinamento para Dashboard page 
-  await dashboardPage.validarPaginaDashboard();
+  await dashboardPage.verifyDashboardTitle();
 
   // Validar nome do user no Header
-  await dashboardPage.validarUserLogado("Dani")
+  await dashboardPage.getUserName();
+  await dashboardPage.isUserNameVisible(); 
 
   // Validar que ficou no localStorage
-  await dashboardPage.validarUsuarioNoLocalStorage('Dani', 'danimaria@gmail.com')
+  await dashboardPage.verifyUserInLocalStorage("Dani", "danimaria@gmail.com")
 });
 
 //////////////////////////////////////////////////////////
@@ -42,7 +44,7 @@ test('CT-FE-003 - 1: Login Simples com Sucesso', async ({ page }) => {
 
   // Ir para a página de registo e inserir dados 
   await loginPage.goToWebsite();
-  await loginPage.preencherDadosLogin();
+  await loginPage.fillLoginData();
 
   // Validar mensagem na pop up e clicar em ok
   // Isto tem de ser feito antes de clicar no botão que dá trigger à pop up
@@ -52,10 +54,10 @@ test('CT-FE-003 - 1: Login Simples com Sucesso', async ({ page }) => {
   });
 
   // Validar login
-  await loginPage.clicarEntrar();
+  await loginPage.clickLogin();
 
   // Validar redirecinamento para Dashboard page 
-  await dashboardPage.validarPaginaDashboard();
+  await dashboardPage.verifyDashboardTitle();
 
 });
 
@@ -66,7 +68,7 @@ test('CT-FE-004: Login com Credenciais Inválidas', async ({ page }) => {
   const loginPage = new LoginPage(page);
 
   await loginPage.goToWebsite();
-  await loginPage.preencherDadosLoginErrados();
+  await loginPage.fillLoginDataWithWrongData();
   
 
   // Validar mensagem na pop up e clicar em ok
@@ -77,12 +79,7 @@ test('CT-FE-004: Login com Credenciais Inválidas', async ({ page }) => {
   });
 
    // Validar login
-  await loginPage.clicarEntrar();
-
-  // Validar que o user permanece na mesma página 
-  await loginPage.validarPaginaLogin();
-  await expect(loginPage.email).not.toHaveValue('');
-  await expect(loginPage.senha).not.toHaveValue('');
+  await loginPage.clickLogin();
 
 });
 

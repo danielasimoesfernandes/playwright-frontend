@@ -5,11 +5,11 @@ export class LoginPage {
    constructor(page) {
       this.page = page;
       this.url = 'http://localhost:3000/login.html';
-      this.tituloLogin = page.getByText('📚 Login')
+      this.loginTitle = page.getByText('📚 Login')
       this.email = page.locator('input[id = "email"]');
       this.senha = page.locator('input[id = "senha"]');
-      this.botaoEntrar = page.locator('button[type="submit"]');
-      this.botaoRegisto = page.getByRole('link', { name: 'Registre-se' });
+      this.loginButton = page.locator('button[type="submit"]');
+      this.registerButton = page.getByRole('link', { name: 'Registre-se' });
    };
 
    // Abrir website 
@@ -17,38 +17,38 @@ export class LoginPage {
       await this.page.goto(this.url);
    };
 
-   async validarPaginaLogin() {
-      await expect(this.tituloLogin).toBeVisible();
+   async verifyLoginPage() {
+      await expect(this.loginTitle).toBeVisible();
       await expect(this.page).toHaveURL(this.url);
    }
 
-   async clicarRegisto() {
-      await this.botaoRegisto.click();
+   async clickRegister() {
+      await this.registerButton.click();
    };
 
-   async preencherDadosLogin() {
+   async fillLoginData() {
       await this.email.click();
       await this.email.fill("dani@gmail.com");
       await this.senha.click();
       await this.senha.fill("Test1234");
    };
 
-   async preencherDadosLoginManualmente(email, senha) {
+   async fillLoginDataMannually(email, senha) {
       await this.email.click();
       await this.email.fill(email);
       await this.senha.click();
       await this.senha.fill(senha);
    };
 
-   async preencherDadosLoginErrados() {
+   async fillLoginDataWithWrongData() {
       await this.email.click();
       await this.email.fill("12837902583234@gmail.com");
       await this.senha.click();
       await this.senha.fill("Senhaerrada");
    };
 
-   async clicarEntrar() {
-      await this.botaoEntrar.click();
+   async clickLogin() {
+      await this.loginButton.click();
    };
 
 };

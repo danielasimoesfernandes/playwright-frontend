@@ -12,9 +12,9 @@ test('CT-FE-001: Fluxo Completo de Registro', async ({ page }) => {
 
   // Ir para a página de registo e inserir dados
   await loginPage.goToWebsite();
-  await loginPage.clicarRegisto();
-  await registoPage.validarPaginaRegisto();
-  await registoPage.preencherDadosRegisto();
+  await loginPage.clickRegister();
+  await registoPage.verifyRegisterPage();
+  await registoPage.fillRegisterData();
 
   // Validar mensagem na pop up e clicar em ok 
   // Isto tem de ser feito antes de clicar no botão que dá trigger à pop up
@@ -24,17 +24,17 @@ test('CT-FE-001: Fluxo Completo de Registro', async ({ page }) => {
   });
 
   // Submeter registo
-  await registoPage.submeterRegisto();
+  await registoPage.submitRegister();
 
   // Validar redirecinamento para Login page 
-  await loginPage.validarPaginaLogin(); 
+  await loginPage.verifyLoginPage(); 
 
   // Validar que campos do formulário estão vazios 
-  await loginPage.clicarRegisto();
-  await expect(registoPage.nome).toHaveValue('');
+  await loginPage.clickRegister();
+  await expect(registoPage.name).toHaveValue('');
   await expect(registoPage.email).toHaveValue('');
-  await expect(registoPage.senha).toHaveValue('');
-  await expect(registoPage.confirmarSenha).toHaveValue('');
+  await expect(registoPage.password).toHaveValue('');
+  await expect(registoPage.confirmPassword).toHaveValue('');
 });
 
 //////////////////////////////////////////
@@ -46,9 +46,9 @@ test('CT-FE-002: Validação de Senhas Não Correspondentes', async ({ page }) =
 
   // Ir para a página de registo e inserir dados 
   await loginPage.goToWebsite();
-  await loginPage.clicarRegisto();
-  await registoPage.validarPaginaRegisto();
-  await registoPage.preencherDadosRegistoSenhasDiferentes();
+  await loginPage.clickRegister();
+  await registoPage.verifyRegisterPage();
+  await registoPage.fillRegisterDataWithDifferentPasswords();
 
   // Validar mensagem na pop up e clicar em ok 
   // Isto tem de ser feito antes de clicar no botão que dá trigger à pop up
@@ -58,8 +58,31 @@ test('CT-FE-002: Validação de Senhas Não Correspondentes', async ({ page }) =
   });
 
   // Submeter registo
-  await registoPage.submeterRegisto();
+  await registoPage.submitRegister();
 
   // Validar que o user permanece na mesma página 
-  await registoPage.validarPaginaRegisto();
+  await registoPage.verifyRegisterPage();
+});
+
+
+test('CT-FE-001: Register my user', async ({ page }) => {
+
+  const registoPage = new RegistoPage(page);
+  const loginPage = new LoginPage(page);
+
+  // Ir para a página de registo e inserir dados
+  await loginPage.goToWebsite();
+  await loginPage.clickRegister();
+  await registoPage.verifyRegisterPage();
+  await registoPage.fillRegisterWithSpecificData();
+
+  // Validar mensagem na pop up e clicar em ok 
+  // Isto tem de ser feito antes de clicar no botão que dá trigger à pop up
+  page.once('dialog', async dialog => {
+    expect(dialog.message()).toBe('Conta criada com sucesso!');
+    await dialog.accept(); // fecha a popup
+  });
+
+  // Submeter registo
+  await registoPage.submitRegister();
 });
